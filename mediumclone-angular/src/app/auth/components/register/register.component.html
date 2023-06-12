@@ -6,14 +6,19 @@
         <p class="text-xs-center">
           <a [routerLink]="['/login']">Have an account?</a>
         </p>
-        Backend errors are here
-        <form>
+        <mc-backend-error-messages
+          *ngIf="backendErrors$ | async"
+          [backendErrors]="backendErrors$ | async"
+        >
+        </mc-backend-error-messages>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <fieldset>
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Username"
+                formControlName="username"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -21,6 +26,7 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Email"
+                formControlName="email"
               />
             </fieldset>
             <fieldset class="form-group">
@@ -28,10 +34,15 @@
                 class="form-control form-control-lg"
                 type="password"
                 placeholder="password"
+                formControlName="password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" type="submit">
-              Submit
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              type="submit"
+              [disabled]="isSubmitting$ | async"
+            >
+              Sign Up
             </button>
           </fieldset>
         </form>
